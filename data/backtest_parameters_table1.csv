@@ -1,0 +1,5 @@
+Parameters,Values
+PCA Factors Kept,5
+Backtesting Frequency,Month
+Rolling Window,60 Months
+Efficient Portfolio,Minimum Variance Portfolio without Constraint
