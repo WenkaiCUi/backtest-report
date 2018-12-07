@@ -1,0 +1,5 @@
+Parameters,Values
+Number of PCA Factors,5
+Backtesting Frequency,Month
+Rolling Window,60 Months
+Efficient Portfolio,Tangency Portfolio (No Short Sale)

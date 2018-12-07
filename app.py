@@ -6,6 +6,8 @@ import dash_html_components as html
 
 
 df_backtest_parameters_table1 = pd.read_csv('data/backtest_parameters_table1.csv')
+df_backtest_parameters_table2 = pd.read_csv('data/backtest_parameters_table2.csv')
+
 df_performance_analysis = pd.read_csv('data/performance_analysis.csv')
 df_performance_analysis2 = pd.read_csv('data/performance_analysis2.csv')
 
@@ -166,19 +168,22 @@ app.layout = html.Div([
             html.Div([
                 html.Div([
                     html.Div([
+                        html.H6('Backtesting Parameters', className = "gs-header gs-table-header padded"),
+                        html.Table( make_dash_table( df_backtest_parameters_table2)),
+
                         html.H6('Model Explained', className = "gs-header gs-table-header padded"),
                         html.P('''By Modern portfolio theory, the efficient frontier is a hyperbola. 
                         The tangency portfolio has the highest Sharpe Ratio. It can be calculated analytically:'''),
                         html.P([html.Img(src='/assets/4.png', height='24',className = 'latex')]),
                         html.P('''However, when backtesing, the weights tend to explode. Constraint must be imposed and 
                         weight can only be calculated by optimizer. In this backetst, short sale is not allowed.
-                        ''')       
+                        ''')                                                       
                     ]),                             
                 ],className = "five columns"),
 
                 html.Div([
                     html.Iframe(src='https://plot.ly/~cuiwk0320/6.embed?modebar=false&link=false', \
-                             style=dict(border=0), width="100%", height="250")
+                             style=dict(border=0), width="100%", height="300")
                 ],className = "seven columns"),
             ], className = "row "),
 
