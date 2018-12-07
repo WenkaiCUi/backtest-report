@@ -77,17 +77,13 @@ app.layout = html.Div([
                     html.H6('Model Explained', className = "gs-header gs-text-header padded"),
 
                     html.Strong('Principle Component Analysis:'),
-                    html.P(r'''
-                    $$ \Omega = P\Lambda P^{T} = P\Lambda^{0.5} \Lambda^{0.5}  (P)^{T} = \beta \beta ^T  $$
-                    ''',style={'font-size':'7px'}),
+                    html.P([html.Img(src='/assets/1.png', height='12',className = 'latex')]),
 
                     html.Strong('Orthogonal Factor Model:'),
                     html.P('''The returns are driven by a constant mean and multiple factors and idiosyncratic random term. 
                     The factors are uncorrelated to each other, which means the returns are driven by independent factors. 
                     The  idiosyncratic terms could be related to each other. '''),
-                    html.P(r'''
-                    $$ R_i = \alpha_i + \sum_{j=1}^m \beta_{ij}F_j + \epsilon_i \hspace{0.5cm} \Omega=\beta E(FF^T) \beta^T+ E(\epsilon \epsilon^T) = \beta \beta^T + D $$
-                    ''',style={'font-size':'7px'}),
+                    html.P([html.Img(src='/assets/2.png', height='13',className = 'latex')]),
 
                     html.P('The factor loadings are estimated by PCA, then a second pass regression is used to estimate factors.'),
 
@@ -96,12 +92,14 @@ app.layout = html.Div([
                 html.Div([
                     html.H6(["Modern Portfolio Theory & Backtesting"],
                             className = "gs-header gs-table-header padded"),
-                    html.P('''The purpose of our factor model is to reduce the estimation error in covariance matrix. Calculate '''),
-
-                    html.Li('Sample Covariance Matrix '),
-                    html.Li('Factor Constrained Covariance Matrix, by'),
-
-                    html.P(r'$$ \Omega_{FC} = \hat\beta \Omega_F \hat\beta^T + D $$',style={'font-size':'7px'}),
+                    html.P('''One thing about Modern Portfolio Theroy is the the estimation of covariance matrix. There
+                    are too much noise and too less data.
+                    The purpose of our factor model is to reduce the estimation error in covariance matrix. Calculate '''),
+                    html.Ul([
+                        html.Li('Sample Covariance Matrix '),
+                        html.Li('Factor Constrained Covariance Matrix, by')
+                    ]),
+                    html.P([html.Img(src='/assets/3.png', height='13',className = 'latex')]),
                     html.P('''
                     Then apply Modern Portfolio Theory to find Mean-Variance efficient Porfolio. If factor constrained 
                     covariance matrix indeed outperform sample estimation covariance matrix, the factor model is proved to improve estimation accuracy.
@@ -121,16 +119,16 @@ app.layout = html.Div([
             # row 3 BT1 
             html.Div([
                 html.Div([
-                        html.P('Backtesting Parameters:',style={'background-color': '#7F91AC','color':'#ffffff'},className = 'twelve columns'),
+                        html.P('Backtesting Parameters:',className = 'twelve columns second-title'),
                         html.Table( make_dash_table( df_backtest_parameters_table1)),
-                        html.P('Performance Analysis:',style={'background-color': '#7F91AC','color':'#ffffff'},className = 'twelve columns'),
+                        html.P('Performance Analysis:',className = 'twelve columns second-title'),
                         html.Table( make_dash_table( df_performance_analysis)),
-                        html.P('Result Summary:',style={'background-color': '#7F91AC','color':'#ffffff'},className = 'twelve columns'),
-                        html.Strong(''''The goal of MVP is to minimize variance as much as possible, ignoring the cost of return.
+                        html.P('Result Summary:',className = 'twelve columns second-title'),
+                        html.Strong('''The goal of MVP is to minimize variance as much as possible, ignoring the cost of return.
                          EWMA shows that MVP construct by factor constrained covariance matrix exhibits significantly lower volatility 
                          than market portfolio, while unconstrained MVP doesn't outperform market. Interestingly, 
                          factor constrained portfolio doesn't show significant lower return than market portfolio, 
-                         which is inconsistent with modern portfolio theory. ''')
+                         which is inconsistent with modern portfolio theory. ''',style={'line-height':'150%'})
 
                 ],className = "five columns"),
 
@@ -171,9 +169,7 @@ app.layout = html.Div([
                         html.H6('Model Explained', className = "gs-header gs-table-header padded"),
                         html.P('''By Modern portfolio theory, the efficient frontier is a hyperbola. 
                         The tangency portfolio has the highest Sharpe Ratio. It can be calculated analytically:'''),
-                        html.P(r'''
-                        $$ w_T = \frac{\Omega^{-1}(\mu-r_fi)}{i^T\Omega^{-1}(\mu-r_fi)} $$
-                        ''',style={'font-size':'7px'}),
+                        html.P([html.Img(src='/assets/4.png', height='24',className = 'latex')]),
                         html.P('''However, when backtesing, the weights tend to explode. Constraint must be imposed and 
                         weight can only be calculated by optimizer. In this backetst, short sale is not allowed.
                         ''')       
@@ -191,10 +187,10 @@ app.layout = html.Div([
                     html.Div([
                         html.H6('Results Summary', className = "gs-header gs-table-header padded"),
                         html.Strong('''
-                            The tangency portfolio consistently outperformed market portfolio with or without factor model constraint,
+                            Both tangency portfolios consistently outperformed market portfolio with or without factor model constraint,
                             especially during the decade after financial crysis.
                             PCA factor constrained portfolio is better than unconstrained throughout the time, but the improvement is minor.
-                        ''')
+                            Tangency portfolios have betas very close to 1, which is partly consistent with CAPM''')
                     ])
                 ],className = "five columns" ),
 
@@ -210,7 +206,7 @@ app.layout = html.Div([
                     html.P('''Both backtests prove that, PCA factor model can effectively increase the accuracy of estimation of
                     covariance matrix. Then it helps construct more efficient portfolio following the theory of Modern Portfolio Theory.'''),
                     html.Strong('''
-                    One thing that really interests me, is, because both factor loadings and factors are estimated from data, the historical 
+                    One thing that really interests me, is, because both factor loadings and factor prices are estimated from data, the historical 
                     factor prices are being updated once new data is incorporated into model. So, if simply pick a point in past, there is no
                     certain factor price. It's like the histroy is being changed because of today's information. This is also the 
                     biggest difference compared with other factor models.

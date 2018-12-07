@@ -1,0 +1,21 @@
+.second-title {
+    background-color: #7F91AC;
+    color:#ffffff  
+}
+
+.latex {
+    display: block;
+    margin-top : 3px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+li {
+    margin-top:0.5px;
+    margin-bottom:0.5px;
+}
+
+ul {
+    margin-top:-5px;
+    margin-bottom:auto;
+}
