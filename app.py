@@ -6,13 +6,16 @@ import dash_html_components as html
 
 
 df_backtest_parameters_table1 = pd.read_csv('data/backtest_parameters_table1.csv')
-
+df_performance_analysis = pd.read_csv('data/performance_analysis.csv')
+df_performance_analysis2 = pd.read_csv('data/performance_analysis2.csv')
 
 
 
 
 app = dash.Dash(__name__)
 server = app.server
+
+app.title = 'Factor Model Backtesting'
 
 
 def make_dash_table( df ):
@@ -25,18 +28,34 @@ def make_dash_table( df ):
         table.append( html.Tr( html_row ) )
     return table
 
+def get_header():
+    header =  html.Div([
+                html.Div([
+                    html.H5('Principle Component Analysis Factor Model Backtesting Report'),
+                    html.H6('Based on Modern Portfolio Theory', style=dict(color='#7F90AC')),
+                    ], className = "nine columns padded" ),
+
+                html.Div([
+                    html.H1([html.Span('12', style=dict(opacity=0.5)), html.Span('05')]),
+                    html.H6('Wenkai Cui')
+                ], className = "three columns gs-header gs-accent-header padded", style=dict(float='right')),
+
+            ], className = "row gs-header gs-text-header")
+    return header
 
 
+def get_mylink():
+    link = html.Div([
+            'For Theory in Detail & Source Code:',
+            html.A(['https://wenkaicui.com/2018/09/30/principle-component-analysis-in-finance/'],href='https://wenkaicui.com/2018/09/30/principle-component-analysis-in-finance/')
+        ],style=dict(position="absolute", top=-20, left=0))
+    return link
 
 app.layout = html.Div([
 
     html.Div([ # page 1
 
-        html.Div([
-            'For Theory in Detail & Source Code:',
-            html.A(['https://wenkaicui.com/2018/09/30/principle-component-analysis-in-finance/'],href='https://wenkaicui.com/2018/09/30/principle-component-analysis-in-finance/')
-        ],style=dict(position="absolute", top=-20, left=0)),
-
+        get_mylink(),
         html.A([ 'Print PDF' ],
            className="button no-print",
            style=dict(position="absolute", top=-40, right=0)),
@@ -46,19 +65,7 @@ app.layout = html.Div([
 
             # Row 1 (Header)
 
-            html.Div([
-
-                html.Div([
-                    html.H5('Principle Component Analysis Factor Model Backtesting Report'),
-                    html.H6('Based on Modern Portfolio Theory', style=dict(color='#7F90AC')),
-                    ], className = "nine columns padded" ),
-
-                html.Div([
-                    html.H1([html.Span('12', style=dict(opacity=0.5)), html.Span('05')]),
-                    html.H6('Wenkai Cui')
-                ], className = "three columns gs-header gs-accent-header padded", style=dict(float='right') ),
-
-            ], className = "row gs-header gs-text-header"),
+            get_header(),
 
             html.Br([]),
 
@@ -114,27 +121,123 @@ app.layout = html.Div([
             # row 3 BT1 
             html.Div([
                 html.Div([
-                        html.Strong('Backtesting Parameters:'),
+                        html.P('Backtesting Parameters:',style={'background-color': '#7F91AC','color':'#ffffff'},className = 'twelve columns'),
                         html.Table( make_dash_table( df_backtest_parameters_table1)),
-                        html.Strong('Result Summary:'),
-                        html.P('The goal of MVP is to minimize variance as much as possible, ignoring the cost of return. ')
+                        html.P('Performance Analysis:',style={'background-color': '#7F91AC','color':'#ffffff'},className = 'twelve columns'),
+                        html.Table( make_dash_table( df_performance_analysis)),
+                        html.P('Result Summary:',style={'background-color': '#7F91AC','color':'#ffffff'},className = 'twelve columns'),
+                        html.Strong(''''The goal of MVP is to minimize variance as much as possible, ignoring the cost of return.
+                         EWMA shows that MVP construct by factor constrained covariance matrix exhibits significantly lower volatility 
+                         than market portfolio, while unconstrained MVP doesn't outperform market. Interestingly, 
+                         factor constrained portfolio doesn't show significant lower return than market portfolio, 
+                         which is inconsistent with modern portfolio theory. ''')
 
-                ],className = "four columns"),
+                ],className = "five columns"),
 
                 html.Div([
                     html.Iframe(src='https://plot.ly/~cuiwk0320/2.embed?modebar=false&link=false', \
                              style=dict(border=0), width="100%", height="250"),
                     html.Iframe(src='https://plot.ly/~cuiwk0320/4.embed?modebar=false&link=false', \
                              style=dict(border=0), width="100%", height="250")
-                ],className = "eight columns")
+                ],className = "seven columns")
             ], className = "row ")
 
         ], className = "subpage" ),
 
+    ], className = "page" ),
 
+
+
+
+    html.Div([ # page 2
+        get_mylink(),
+        html.A([ 'Print PDF' ],
+           className="button no-print",
+           style=dict(position="absolute", top=-40, right=0)),
+        
+        html.Div([# Row 1 (Header)
+            get_header(),
+            html.Br([]),
+
+            html.Div([
+                html.Div([
+                    html.H6('Backtesting Tangency (No Short Sale)', className = "gs-header gs-text-header padded"),
+                ],className = "twelve columns" ),
+            ], className = "row "),
+
+            html.Div([
+                html.Div([
+                    html.Div([
+                        html.H6('Model Explained', className = "gs-header gs-table-header padded"),
+                        html.P('''By Modern portfolio theory, the efficient frontier is a hyperbola. 
+                        The tangency portfolio has the highest Sharpe Ratio. It can be calculated analytically:'''),
+                        html.P(r'''
+                        $$ w_T = \frac{\Omega^{-1}(\mu-r_fi)}{i^T\Omega^{-1}(\mu-r_fi)} $$
+                        ''',style={'font-size':'7px'}),
+                        html.P('''However, when backtesing, the weights tend to explode. Constraint must be imposed and 
+                        weight can only be calculated by optimizer. In this backetst, short sale is not allowed.
+                        ''')       
+                    ]),                             
+                ],className = "five columns"),
+
+                html.Div([
+                    html.Iframe(src='https://plot.ly/~cuiwk0320/6.embed?modebar=false&link=false', \
+                             style=dict(border=0), width="100%", height="250")
+                ],className = "seven columns"),
+            ], className = "row "),
+
+            html.Div([
+                html.Div([
+                    html.Div([
+                        html.H6('Results Summary', className = "gs-header gs-table-header padded"),
+                        html.Strong('''
+                            The tangency portfolio consistently outperformed market portfolio with or without factor model constraint,
+                            especially during the decade after financial crysis.
+                            PCA factor constrained portfolio is better than unconstrained throughout the time, but the improvement is minor.
+                        ''')
+                    ])
+                ],className = "five columns" ),
+
+                html.Div([
+                    html.H6('Performance Analysis', className = "gs-header gs-table-header padded"),
+                    html.Table( make_dash_table( df_performance_analysis2))
+                ],className = "seven columns" ),
+            ], className = "row "),
+
+            html.Div([
+                html.Div([
+                    html.H6('Summary', className = "gs-header gs-text-header padded"),
+                    html.P('''Both backtests prove that, PCA factor model can effectively increase the accuracy of estimation of
+                    covariance matrix. Then it helps construct more efficient portfolio following the theory of Modern Portfolio Theory.'''),
+                    html.Strong('''
+                    One thing that really interests me, is, because both factor loadings and factors are estimated from data, the historical 
+                    factor prices are being updated once new data is incorporated into model. So, if simply pick a point in past, there is no
+                    certain factor price. It's like the histroy is being changed because of today's information. This is also the 
+                    biggest difference compared with other factor models.
+                    ''')
+                ],className = "twelve columns" ),
+            ], className = "row "),
+
+            html.Div([
+                html.Div([
+                    html.H6('Additional Information', className = "gs-header gs-text-header padded"),
+                    html.P([
+                        'Detailed explanation of how the PCA factor model is constructed from scratch can be found here:',
+                        html.A(['https://wenkaicui.com/2018/09/30/principle-component-analysis-in-finance/'], \
+                        href='https://wenkaicui.com/2018/09/30/principle-component-analysis-in-finance/')
+                    ]),
+                    html.P([html.P('Source Code can be found here:'),
+                        html.A(['https://github.com/WenkaiCUi/PCA-and-Factor-Model'], \
+                            href='https://github.com/WenkaiCUi/PCA-and-Factor-Model')
+                    ]),
+                    
+                    html.P([html.P('Feel free to contact me at wkcui@bu.edu')])
+                ],className = "twelve columns" ),
+            ], className = "row ")
+
+        ], className = "subpage" ),
 
     ], className = "page" )
-
 ])
 
 
