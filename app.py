@@ -121,11 +121,13 @@ app.layout = html.Div([
             # row 3 BT1 
             html.Div([
                 html.Div([
-                        html.P('Backtesting Parameters:',className = 'twelve columns second-title'),
+                        html.H6('Backtesting Parameters:',className = 'gs-header gs-table-header left-pad'),
                         html.Table( make_dash_table( df_backtest_parameters_table1)),
-                        html.P('Performance Analysis:',className = 'twelve columns second-title'),
+
+                        html.H6('Performance Analysis:',className = 'gs-header gs-table-header left-pad'),
                         html.Table( make_dash_table( df_performance_analysis)),
-                        html.P('Result Summary:',className = 'twelve columns second-title'),
+
+                        html.H6('Result Summary:',className = 'gs-header gs-table-header left-pad'),
                         html.Strong('''The goal of MVP is to minimize variance as much as possible, ignoring the cost of return.
                          EWMA shows that MVP construct by factor constrained covariance matrix exhibits significantly lower volatility 
                          than market portfolio, while unconstrained MVP doesn't outperform market. Interestingly, 
@@ -168,10 +170,10 @@ app.layout = html.Div([
             html.Div([
                 html.Div([
                     html.Div([
-                        html.H6('Backtesting Parameters', className = "gs-header gs-table-header padded"),
+                        html.H6('Backtesting Parameters', className = "gs-header gs-table-header left-pad"),
                         html.Table( make_dash_table( df_backtest_parameters_table2)),
 
-                        html.H6('Model Explained', className = "gs-header gs-table-header padded"),
+                        html.H6('Model Explained', className = "gs-header gs-table-header left-pad"),
                         html.P('''By Modern portfolio theory, the efficient frontier is a hyperbola. 
                         The tangency portfolio has the highest Sharpe Ratio. It can be calculated analytically:'''),
                         html.P([html.Img(src='/assets/4.png', height='24',className = 'latex')]),
@@ -190,7 +192,7 @@ app.layout = html.Div([
             html.Div([
                 html.Div([
                     html.Div([
-                        html.H6('Results Summary', className = "gs-header gs-table-header padded"),
+                        html.H6('Results Summary', className = "gs-header gs-table-header left-pad"),
                         html.Strong('''
                             Both tangency portfolios consistently outperformed market portfolio with or without factor model constraint,
                             especially during the decade after financial crysis.
@@ -200,7 +202,7 @@ app.layout = html.Div([
                 ],className = "five columns" ),
 
                 html.Div([
-                    html.H6('Performance Analysis', className = "gs-header gs-table-header padded"),
+                    html.H6('Performance Analysis', className = "gs-header gs-table-header left-pad"),
                     html.Table( make_dash_table( df_performance_analysis2))
                 ],className = "seven columns" ),
             ], className = "row "),
@@ -235,9 +237,7 @@ app.layout = html.Div([
                     html.P([html.P('Feel free to contact me at wkcui@bu.edu')])
                 ],className = "twelve columns" ),
             ], className = "row ")
-
         ], className = "subpage" ),
-
     ], className = "page" )
 ])
 
