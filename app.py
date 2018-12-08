@@ -163,7 +163,7 @@ app.layout = html.Div([
 
             html.Div([
                 html.Div([
-                    html.H6('Backtesting Tangency (No Short Sale)', className = "gs-header gs-text-header padded"),
+                    html.H6('Backtesting Tangency Portfolio (Maximum Sharpe Ratio Portfolio) with No Short Sale', className = "gs-header gs-text-header padded"),
                 ],className = "twelve columns" ),
             ], className = "row "),
 
@@ -225,16 +225,28 @@ app.layout = html.Div([
                 html.Div([
                     html.H6('Additional Information', className = "gs-header gs-text-header padded"),
                     html.P([
-                        'Detailed explanation of how the PCA factor model is constructed from scratch can be found here:',
+                        'Detailed explanation of how the PCA factor model is constructed from scratch can be found here:  ',
                         html.A(['https://wenkaicui.com/2018/09/30/principle-component-analysis-in-finance/'], \
                         href='https://wenkaicui.com/2018/09/30/principle-component-analysis-in-finance/')
                     ]),
-                    html.P([html.P('Source Code can be found here:'),
+
+                    html.P([
+                        'Source Code to create this interactive report can be found here:  ',
+                        html.A(['https://github.com/WenkaiCUi/backtest-report'], \
+                            href='https://github.com/WenkaiCUi/backtest-report')
+                    ]),
+
+                    html.P([
+                        'Source Code to for backtesing can be found here:  ',
                         html.A(['https://github.com/WenkaiCUi/PCA-and-Factor-Model'], \
                             href='https://github.com/WenkaiCUi/PCA-and-Factor-Model')
                     ]),
                     
-                    html.P([html.P('Feel free to contact me at wkcui@bu.edu')])
+                    html.P([
+                        'Feel free to contact me at wkcui@bu.edu or connect me at LinkedIn:  ',
+                        html.A(['https://www.linkedin.com/in/wenkaicui/'],\
+                        href='https://www.linkedin.com/in/wenkaicui/')
+                    ])
                 ],className = "twelve columns" ),
             ], className = "row ")
         ], className = "subpage" ),
@@ -243,7 +255,7 @@ app.layout = html.Div([
 
 
 
-external_css = [ "https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css",
+external_css =["https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css",
         "https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css",
         "//fonts.googleapis.com/css?family=Raleway:400,300,600",
         "https://cdn.rawgit.com/plotly/dash-app-stylesheets/5047eb29e4afe01b45b27b1d2f7deda2a942311a/goldman-sachs-report.css",
